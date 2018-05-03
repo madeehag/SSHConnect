@@ -21,10 +21,10 @@ public class JSchExampleSSHConnection {
 	    	
 	    	java.util.Properties config = new java.util.Properties(); 
 	    	config.put("StrictHostKeyChecking", "no");
-	    	config.put("PreferredAuthentications", "publickey,keyboard-interactive,password");
+	    	config.put("PreferredAuthentications", "publickey");
 	    	JSch jsch = new JSch();
-	    	jsch.addIdentity("/home/dnasssd/.ssh/id_rsa","12345");
-	    	jsch.setKnownHosts("/home/dnasssd/.ssh/known_hosts");
+	    	jsch.addIdentity("/home/dnasssd/.ssh/id_rsa".toString(),"12345");
+	    	jsch.setKnownHosts("/home/dnasssd/.ssh/known_hosts".toString());
 	    	Session session=jsch.getSession(user, host, 22);
 	    	
 	    	session.setConfig(config);
