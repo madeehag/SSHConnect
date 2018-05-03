@@ -13,8 +13,8 @@ public class JSchExampleSSHConnection {
 	
 	public static void main(String[] args) {
 		JSch.setLogger(new MyLogger());
-		String host="dedwfprsapp01.de.neustar.com";
-	    String user="dnasssd";
+		String host="dedwdprsrmc001.de.neustar.com";
+	    String user="dnartdd";
 	    //String password="sshpwd";
 	    String command1="ls -ltr";
 	    try{
