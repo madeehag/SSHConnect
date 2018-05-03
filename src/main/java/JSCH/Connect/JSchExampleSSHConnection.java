@@ -1,13 +1,16 @@
 package JSCH.Connect;
 
 import java.io.InputStream;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import com.jcraft.jsch.Channel;
 import com.jcraft.jsch.ChannelExec;
 import com.jcraft.jsch.JSch;
+import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.Session;
 
 public class JSchExampleSSHConnection {
+	private static Logger log = LoggerFactory.getLogger(JSchExampleSSHConnection.class);
 
 	public static void main(String[] args) {
 		String host="dedwfprsapp01.de.neustar.com";
@@ -35,6 +38,7 @@ public class JSchExampleSSHConnection {
 	        
 	        InputStream in=channel.getInputStream();
 	        channel.connect();
+	       
 	        byte[] tmp=new byte[1024];
 	        while(true){
 	          while(in.available()>0){
@@ -51,7 +55,11 @@ public class JSchExampleSSHConnection {
 	        channel.disconnect();
 	        session.disconnect();
 	        System.out.println("DONE");
-	    }catch(Exception e){
+	    }catch (JSchException e) {
+	    	log.debug("exception..."+ e);
+	    	log.error("JSchException..."+ e);
+	    }
+	    catch(Exception e){
 	    	e.printStackTrace();
 	    }
 
