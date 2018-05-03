@@ -1,8 +1,7 @@
 package JSCH.Connect;
 
 import java.io.InputStream;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+
 import com.jcraft.jsch.Channel;
 import com.jcraft.jsch.ChannelExec;
 import com.jcraft.jsch.JSch;
@@ -10,9 +9,10 @@ import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.Session;
 
 public class JSchExampleSSHConnection {
-	private static Logger log = LoggerFactory.getLogger(JSchExampleSSHConnection.class);
-
+	//private static Logger log = LoggerFactory.getLogger(JSchExampleSSHConnection.class);
+	
 	public static void main(String[] args) {
+		JSch.setLogger(new MyLogger());
 		String host="dedwfprsapp01.de.neustar.com";
 	    String user="dnasssd";
 	    //String password="sshpwd";
@@ -23,7 +23,7 @@ public class JSchExampleSSHConnection {
 	    	config.put("StrictHostKeyChecking", "no");
 	    	config.put("PreferredAuthentications", "publickey,keyboard-interactive,password");
 	    	JSch jsch = new JSch();
-	    	jsch.addIdentity("/home/dnasssd/.ssh/id_rsa");
+	    	jsch.addIdentity("/home/dnasssd/.ssh/id_rsa","12345");
 	    	jsch.setKnownHosts("/home/dnasssd/.ssh/known_hosts");
 	    	Session session=jsch.getSession(user, host, 22);
 	    	
@@ -35,6 +35,8 @@ public class JSchExampleSSHConnection {
 	        ((ChannelExec)channel).setCommand(command1);
 	        channel.setInputStream(null);
 	        ((ChannelExec)channel).setErrStream(System.err);
+	        channel.setInputStream(System.in);
+	        channel.setOutputStream(System.out);
 	        
 	        InputStream in=channel.getInputStream();
 	        channel.connect();
@@ -56,8 +58,7 @@ public class JSchExampleSSHConnection {
 	        session.disconnect();
 	        System.out.println("DONE");
 	    }catch (JSchException e) {
-	    	log.debug("exception..."+ e);
-	    	log.error("JSchException..."+ e);
+	    	System.out.println("JSCH Exception"+e);
 	    }
 	    catch(Exception e){
 	    	e.printStackTrace();
