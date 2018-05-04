@@ -16,7 +16,10 @@ public class JSchExampleSSHConnection {
 		String host="dedwdprsrmc001.de.neustar.com";
 	    String user="dnartdd";
 	    //String password="sshpwd";
-	    String command1="ls -ltr";
+	    StringBuffer cmd = new StringBuffer();
+	    cmd =  cmd.append("ssh dnartdd@dedwdprsrmc001 -i .ssh/jenkins  ").append(" sh /opt/dnartdd/environment-files/ssConfRestbkp.sh ");
+		String command = cmd.toString();
+	   // String command1="ls -ltr";
 	    try{
 	    	
 	    	java.util.Properties config = new java.util.Properties(); 
@@ -32,7 +35,7 @@ public class JSchExampleSSHConnection {
 	    	System.out.println("Connected");
 	    	
 	    	Channel channel=session.openChannel("exec");
-	        ((ChannelExec)channel).setCommand(command1);
+	        ((ChannelExec)channel).setCommand(command);
 	        channel.setInputStream(null);
 	        ((ChannelExec)channel).setErrStream(System.err);
 	        channel.setInputStream(System.in);
